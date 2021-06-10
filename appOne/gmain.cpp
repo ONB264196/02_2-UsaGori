@@ -128,7 +128,6 @@ void title(struct DATA* d) {
     image(d->titleImg, 0, 0);
     if (isTrigger(KEY_SPACE)) {
         init(d);
-        //ステート切り替え
         d->state = d->PLAY;
     }
 }
@@ -229,7 +228,7 @@ void play(struct DATA* d) {
     draw(d);
 
     if (d->rabit.hp <= 0 || d->gori.hp <= 0) {
-        if (d->gori.hp > 0) {//ゴリラが勝った
+        if (d->gori.hp > 0) {
             d->gori.img = d->gori.winImg;
             d->rabit.img = d->rabit.loseImg;
         }
@@ -252,8 +251,8 @@ int collision(struct CHARA* c, struct BULLET* b) {
         float bLeft = b->px - b->halfW;
         float bTop = b->py - b->halfH;
         float bBottom = b->py + b->halfH;
-        if (cRight < cLeft || cLeft > bRight ||
-            cTop < bBottom || cBottom > bTop) {
+        if (cRight < bLeft || bRight < cLeft ||
+            bBottom < cTop || cBottom < bTop) {
             return 0;
         }
         else {
@@ -310,7 +309,6 @@ void result(struct DATA* d) {
     }
     draw(d);
 
-    //リスタート(数フレームループしないとスペースキーを押せない)
     if (d->frameCnt > 0) {
         d->frameCnt--;
     }
